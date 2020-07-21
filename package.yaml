@@ -1,0 +1,20 @@
+name:                cipher
+version:             0.1.0
+license:             GPL-3.0
+author:              barsanges
+maintainer:          https://github.com/barsanges
+copyright:           2020 barsanges
+
+extra-source-files:
+- README.md
+
+synopsis:            Command line utility to encrypt short ASCII texts
+description:         Please see the README
+
+dependencies:
+- base
+
+executables:
+  cipher:
+    source-dirs:      src
+    main:             Main.hs
