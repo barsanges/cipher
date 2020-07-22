@@ -23,7 +23,11 @@ main = do
    let new = if decrypt cli
              then decode (cipher cli) str'
              else encode (cipher cli) str'
-   putStrLn new -- TODO: allow to write to a file.
+   putStrLn (lighten blockSize new) -- TODO: allow to write to a file.
+
+-- | Size of the blocks of characters in the output.
+blockSize :: Int
+blockSize = 4
 
 -- | Encode the text with the given cipher.
 encode :: Cipher -> String -> String
