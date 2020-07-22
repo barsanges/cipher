@@ -12,7 +12,7 @@ module Utils (
   ) where
 
 import Data.Char ( isSpace, toUpper )
-import Data.List ( intercalate, splitAt )
+import Data.List ( intercalate )
 
 -- | Remove all spaces from the given string.
 strip :: String -> String
