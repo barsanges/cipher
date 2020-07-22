@@ -16,7 +16,19 @@ dependencies:
 - bimap
 - optparse-applicative
 
+library:
+  source-dirs: src
+
 executables:
   cipher:
     source-dirs:      src
     main:             Main.hs
+
+tests:
+  cipher-test:
+    main:                Spec.hs
+    source-dirs:         test
+    dependencies:
+    - cipher
+    - hspec
+    - QuickCheck
