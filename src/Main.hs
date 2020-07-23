@@ -16,9 +16,10 @@ import Utils
 main :: IO ()
 main = do
    cli <- execParser args
-   str <- case source cli of
+   str <- case input cli of
             Message m -> pure m
             File f -> readFile f
+            StdIn -> getContents
    let str' = simplify str
    let new = if decrypt cli
              then decode (cipher cli) str'

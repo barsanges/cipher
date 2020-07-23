@@ -8,7 +8,7 @@ Command line interface for 'cipher'.
 
 module CLI (
   Cipher(..),
-  Source(..),
+  Input(..),
   Args(..),
   args,
   execParser -- Re-exported from Options.Applicative
@@ -20,15 +20,15 @@ data Cipher = Caesar Int
             | Vigenere String
             | Polybius
 
-data Source = Message String
+data Input = Message String
             | File String
--- FIXME: allow to read from stdin
+            | StdIn
 
 -- FIXME: allow to write to file.
 
 data Args = Args
   { cipher :: Cipher
-  , source :: Source
+  , input :: Input
   , decrypt :: Bool
   }
 
@@ -59,7 +59,7 @@ cipherParser = caesarParser
              <|> vigenereParser
              <|> polybiusParser
 
-messageParser :: Parser Source
+messageParser :: Parser Input
 messageParser = Message <$> strOption
   ( long "message"
   <> short 'm'
@@ -67,7 +67,7 @@ messageParser = Message <$> strOption
   <> help "Encrypt 'MESSAGE'"
   )
 
-fileParser :: Parser Source
+fileParser :: Parser Input
 fileParser = File <$> strOption
   ( long "fin"
   <> short 'i'
@@ -75,9 +75,13 @@ fileParser = File <$> strOption
   <> help "Encrypt the content of the file 'FIN'"
   )
 
-sourceParser :: Parser Source
-sourceParser = messageParser
+stdinParser :: Parser Input
+stdinParser = pure StdIn
+
+inputParser :: Parser Input
+inputParser = messageParser
              <|> fileParser
+             <|> stdinParser
 
 decryptParser :: Parser Bool
 decryptParser = switch
@@ -89,7 +93,7 @@ decryptParser = switch
 argsParser :: Parser Args
 argsParser = Args
            <$> cipherParser
-           <*> sourceParser
+           <*> inputParser
            <*> decryptParser
 
 -- | Command line parser for 'cipher'.
