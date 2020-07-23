@@ -34,7 +34,7 @@ caesar shift = fmap go
   where
     go x = case lookupR x ascii of
       Nothing -> x
-      Just i -> ascii ! (i + shift `mod` asciiSize)
+      Just i -> ascii ! ((i + shift) `mod` asciiSize)
 
 -- | Decrypt a string encrypted with 'caesar shift'.
 caesar' :: Int -> String -> String
