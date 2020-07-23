@@ -18,13 +18,15 @@ main = do
    cli <- execParser args
    str <- case input cli of
             Message m -> pure m
-            File f -> readFile f
+            InputFile f -> readFile f
             StdIn -> getContents
    let str' = simplify str
    let new = if decrypt cli
              then decode (cipher cli) str'
-             else encode (cipher cli) str'
-   putStrLn (lighten blockSize new) -- TODO: allow to write to a file.
+             else lighten blockSize $ encode (cipher cli) str'
+   case output cli of
+      OutputFile f -> writeFile f new
+      StdOut -> putStrLn new
 
 -- | Size of the blocks of characters in the output.
 blockSize :: Int

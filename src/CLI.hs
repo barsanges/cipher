@@ -9,6 +9,7 @@ Command line interface for 'cipher'.
 module CLI (
   Cipher(..),
   Input(..),
+  Output(..),
   Args(..),
   args,
   execParser -- Re-exported from Options.Applicative
@@ -21,14 +22,16 @@ data Cipher = Caesar Int
             | Polybius
 
 data Input = Message String
-            | File String
+            | InputFile String
             | StdIn
 
--- FIXME: allow to write to file.
+data Output = OutputFile String
+            | StdOut
 
 data Args = Args
   { cipher :: Cipher
   , input :: Input
+  , output :: Output
   , decrypt :: Bool
   }
 
@@ -67,8 +70,8 @@ messageParser = Message <$> strOption
   <> help "Encrypt 'MESSAGE'"
   )
 
-fileParser :: Parser Input
-fileParser = File <$> strOption
+inputFileParser :: Parser Input
+inputFileParser = InputFile <$> strOption
   ( long "fin"
   <> short 'i'
   <> metavar "FIN"
@@ -80,8 +83,23 @@ stdinParser = pure StdIn
 
 inputParser :: Parser Input
 inputParser = messageParser
-             <|> fileParser
+             <|> inputFileParser
              <|> stdinParser
+
+outputFileParser :: Parser Output
+outputFileParser = OutputFile <$> strOption
+  ( long "fout"
+  <> short 'o'
+  <> metavar "FOUT"
+  <> help "Write the result to the file 'FOUT' instead of sending it to stdout"
+  )
+
+stdoutParser :: Parser Output
+stdoutParser = pure StdOut
+
+outputParser :: Parser Output
+outputParser = outputFileParser
+              <|> stdoutParser
 
 decryptParser :: Parser Bool
 decryptParser = switch
@@ -94,6 +112,7 @@ argsParser :: Parser Args
 argsParser = Args
            <$> cipherParser
            <*> inputParser
+           <*> outputParser
            <*> decryptParser
 
 -- | Command line parser for 'cipher'.
