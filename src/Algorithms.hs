@@ -44,24 +44,26 @@ caesar' shift = caesar (-shift)
 -- letter a number of positions down the alphabet depending on the key (first
 -- argument).
 vigenere :: String -> String -> String
-vigenere key = zipWith go (cycle key)
+vigenere [] str = str
+vigenere key str = zipWith go (cycle key) str
   where
     go k x = fromMaybe x (char k x)
     char k x = do
       k' <- lookupR k ascii
       x' <- lookupR x ascii
-      let y' = (x' + k') `mod` asciiSize
+      let y' = (x' + k' + 1) `mod` asciiSize
       lookup y' ascii
 
 -- | Decrypt a string encrypted with 'vigenere key'.
 vigenere' :: String -> String -> String
-vigenere' key = zipWith go (cycle key)
+vigenere' [] str = str
+vigenere' key str = zipWith go (cycle key) str
   where
     go k x = fromMaybe x (char' k x)
     char' k x = do
       k' <- lookupR k ascii
       x' <- lookupR x ascii
-      let y' = (x' - k') `mod` asciiSize
+      let y' = (x' - k' - 1) `mod` asciiSize
       lookup y' ascii
 
 -- | Polybius square.
