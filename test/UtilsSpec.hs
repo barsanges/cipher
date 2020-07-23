@@ -14,23 +14,23 @@ import Utils
 spec :: Spec
 spec = do
   describe "lighten" $ do
-    it "inserts one white space every 'n' characters" $ do
+    it "inserts one white space every 'n' characters" $
       lighten 4 "abcdef" `shouldBe` "abcd ef"
 
-    it "does not insert a whitespace at the end of the string" $ do
+    it "does not insert a whitespace at the end of the string" $
       lighten 4 "abcdefgh" `shouldBe` "abcd efgh"
 
-    it "does nothing if the string is too short" $ do
+    it "does nothing if the string is too short" $
       lighten 100 "abcdefgh" `shouldBe` "abcdefgh"
 
   describe "simplify" $ do
-    it "an English pangram" $ do
+    it "an English pangram" $
       simplify "The quick brown fox jumps over the lazy dog." `shouldBe` "THEQUICKBROWNFOXJUMPSOVERTHELAZYDOG."
 
-    it "a French pangram" $ do
+    it "a French pangram" $
       simplify "Portez ce vieux whisky au juge blond qui fume." `shouldBe` "PORTEZCEVIEUXWHISKYAUJUGEBLONDQUIFUME."
 
-    it "a French pangram with all French characters" $ do
+    it "a French pangram with all French characters" $
       simplify "Portez ce vieux whisky au juge blond qui fume sur son île\
                \ intérieure, à côté de l'alcôve ovoïde, où les bûches se\
                \ consument dans l'âtre, ce qui lui permet de penser à la\
@@ -44,7 +44,7 @@ spec = do
                \AMBIGUEENTENDUEAMOY,DANSUNCAPHARNAUMQUI,PENSE-T-IL,\
                \DIMINUECAETLALAQUALITEDESONOEUVRE."
 
-    it "another French pangram with all French characters" $ do
+    it "another French pangram with all French characters" $
       simplify "Dès Noël, où un zéphyr haï me vêt de glaçons würmiens, je dîne\
                \ d'exquis rôtis de bœuf au kir, à l'Aÿ d'âge mûr, et cætera."
                `shouldBe` "DESNOEL,OUUNZEPHYRHAIMEVETDEGLACONSWURMIENS,JEDINE\

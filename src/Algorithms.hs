@@ -71,7 +71,7 @@ square :: Bimap String Char
 square = map go ascii
   where
     len = ceiling . sqrt . fromIntegral $ asciiSize
-    go x = (show $ x `div` len) ++ (show $ x `mod` len)
+    go x = show (x `div` len) ++ show (x `mod` len)
 
 -- | Replaces each ASCII capital letter in the string by a two digit number.
 polybius :: String -> String

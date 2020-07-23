@@ -12,7 +12,6 @@ module Utils (
   ) where
 
 import Data.Char ( isSpace, toUpper )
-import Data.List ( intercalate )
 
 -- | Remove all spaces from the given string.
 strip :: String -> String
@@ -71,10 +70,10 @@ simplify = toUpperStr . toASCII . strip
 -- | Split the list into sublists of length 'n'.
 split :: Int -> [a] -> [[a]]
 split _ [] = []
-split n xs = (x0:(split n xs'))
+split n xs = (x0 : split n xs')
   where
     (x0, xs') = splitAt n xs
 
 -- | Insert one white space every 'n' characters.
 lighten :: Int -> String -> String
-lighten n text = intercalate " " $ split n text
+lighten n text = unwords $ split n text

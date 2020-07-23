@@ -15,32 +15,32 @@ import Algorithms
 spec :: Spec
 spec = do
   describe "Caesar cipher" $ do
-    it "replaces ASCII capital letters (1)" $ do
+    it "replaces ASCII capital letters (1)" $
       caesar 1 "ABCDEFGHIJKLMNOPQRSTUVWXYZ" `shouldBe` "BCDEFGHIJKLMNOPQRSTUVWXYZA"
 
-    it "replaces ASCII capital letters (2)" $ do
+    it "replaces ASCII capital letters (2)" $
       caesar 5 "ABCDEFGHIJKLMNOPQRSTUVWXYZ" `shouldBe` "FGHIJKLMNOPQRSTUVWXYZABCDE"
 
-    it "affects only ASCII capital letters" $ do
+    it "affects only ASCII capital letters" $
       caesar 1 "Does it? IT DOES!" `shouldBe` "Eoes it? JU EPFT!"
 
     it "can always be inversed" $ property $
       \ i str -> (caesar' i $ caesar i str) == str
 
   describe "Vigenere cipher" $ do
-    it "replaces ASCII capital letters" $ do
+    it "replaces ASCII capital letters" $
       vigenere "KEY" "ABCDEFGHIJKLMNOPQRSTUVWXYZ" `shouldBe` "LGBOJERMHUPKXSNAVQDYTGBWJE"
 
-    it "can use a key shorter than the text" $ do
+    it "can use a key shorter than the text" $
       vigenere "VIGENERE" "ABCDEFGHIJKLMNOPQRSTUVWXYZ" `shouldBe` "WKJISKYMESRQASGUMAZYIAOCUI"
 
-    it "can use a key as long as the text" $ do
+    it "can use a key as long as the text" $
       vigenere "VIGENERE" "ABCDEFGH" `shouldBe` "WKJISKYM"
 
-    it "can use a key longer than the text" $ do
+    it "can use a key longer than the text" $
       vigenere "VIGENERE" "ABC" `shouldBe` "WKJ"
 
-    it "affects only ASCII capital letters" $ do
+    it "affects only ASCII capital letters" $
       vigenere "Ab C" "Does it? IT DOES!" `shouldBe` "Eoes it? IT EOEV!"
 
     it "can always be inversed" $ property $
@@ -50,17 +50,17 @@ spec = do
       \ str -> vigenere "C" str == caesar 3 str
 
   describe "Polybius cipher" $ do
-    it "replaces ASCII capital letters with 2 digit numbers" $ do
+    it "replaces ASCII capital letters with 2 digit numbers" $
       polybius "ABCDEFGHIJKLMNOPQRSTUVWXYZ" `shouldBe` "0001020304051011121314152021222324253031323334354041"
 
-    it "affects only ASCII capital letters during encryption" $ do
+    it "affects only ASCII capital letters during encryption" $
       polybius "Does it? IT DOES!" `shouldBe` "03oes it? 1231 03220430!"
 
-    it "affects only digits during decryption" $ do
+    it "affects only digits during decryption" $
       polybius' "03oes it? 1231 03220430!" `shouldBe` "Does it? IT 0UM430!"
 
-    it "can sometimes be inversed" $ do
+    it "can sometimes be inversed" $
       (polybius' . polybius $ "ABCDEF") == "ABCDEF" `shouldBe` True
 
-    it "cannot always be inversed" $ do
+    it "cannot always be inversed" $
       (polybius' . polybius $ "Does it? IT DOES!") == "Does it? IT DOES!" `shouldBe` False
