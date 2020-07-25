@@ -28,7 +28,7 @@ spec = do
       simplify "The quick brown fox jumps over the lazy dog." `shouldBe` "THEQUICKBROWNFOXJUMPSOVERTHELAZYDOG."
 
     it "a French pangram" $
-      simplify "Portez ce vieux whisky au juge blond qui fume." `shouldBe` "PORTEZCEVIEUXWHISKYAUJUGEBLONDQUIFUME."
+      simplify "Portez ce vieux whisky au juge blond qui fume." `shouldBe` "foo?"
 
     it "a French pangram with all French characters" $
       simplify "Portez ce vieux whisky au juge blond qui fume sur son île\
