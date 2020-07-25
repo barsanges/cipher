@@ -25,7 +25,7 @@ spec = do
 
   describe "simplify" $ do
     it "an English pangram" $
-      simplify "The quick brown fox jumps over the lazy dog." `shouldBe` "foo?"
+      simplify "The quick brown fox jumps over the lazy dog." `shouldBe` "THEQUICKBROWNFOXJUMPSOVERTHELAZYDOG."
 
     it "a French pangram" $
       simplify "Portez ce vieux whisky au juge blond qui fume." `shouldBe` "PORTEZCEVIEUXWHISKYAUJUGEBLONDQUIFUME."
