@@ -37,9 +37,11 @@ encode :: Cipher -> String -> String
 encode (Caesar shift) = caesar shift
 encode (Vigenere key) = vigenere (simplify key)
 encode Polybius = polybius
+encode (Zigzag n) = zigzag n
 
 -- | Decode the text with the given cipher.
 decode :: Cipher -> String -> String
 decode (Caesar shift) = caesar' shift
 decode (Vigenere key) = vigenere' (simplify key)
 decode Polybius = polybius'
+decode (Zigzag n) = zigzag' n

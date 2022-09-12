@@ -64,3 +64,13 @@ spec = do
 
     it "cannot always be inversed" $
       (polybius' . polybius $ "Does it? IT DOES!") == "Does it? IT DOES!" `shouldBe` False
+
+  describe "Zigzag cipher" $ do
+    it "replaces ASCII capital letters" $
+      zigzag 3 "WEAREDISCOVEREDRUNATONCE" `shouldBe` "WECRUOERDSOEERNTNEAIVDAC"
+
+    it "affects all characters" $
+      zigzag 3 "Does it? IT DOES!" `shouldBe` "D  D!osi?I OSetTE"
+
+    it "can always be inversed" $ property $
+      \ i str -> (zigzag' i $ zigzag i str) == str

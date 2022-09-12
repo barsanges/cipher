@@ -12,11 +12,14 @@ module Algorithms (
   vigenere,
   vigenere',
   polybius,
-  polybius'
+  polybius',
+  zigzag,
+  zigzag'
   ) where
 
 import Prelude hiding ( lookup, map )
 import Data.Bimap ( Bimap, insert, empty, size, lookup, (!), lookupR, map )
+import Data.List ( sortOn )
 import Data.Maybe ( fromMaybe )
 
 -- | ASCII alphabet.
@@ -90,3 +93,22 @@ polybius' (x1:x2:xs) = x' ++ polybius' xs
     x' = case lookup [x1, x2] square of
       Just c -> [c]
       Nothing -> [x1, x2]
+
+-- | Reorder the characters of the string.
+zigzag :: Int -> String -> String
+zigzag n str
+  | n < 1 = str
+  | otherwise = zigzagOrder n str
+
+-- | Decrypt a string encrypted with 'zigzag n'.
+zigzag' :: Int -> String -> String
+zigzag' n str
+  | n < 1 = str
+  | otherwise = fmap snd (sortOn fst $ zip (zigzagOrder n [1..length str]) str)
+
+-- | Reorder a list following a zigzag, as if the elements were laid out
+-- downwards diagonally on 'n' successive "rails" of an imaginary fence, then
+-- moving up when the bottom rail is reached, down again when the top rail is
+-- reached, and so on. The final list is then read off in rows.
+zigzagOrder :: Int -> [a] -> [a]
+zigzagOrder n xs = fmap snd (sortOn fst $ zip (cycle ([1..n] ++ [n-1,n-2..2])) xs)

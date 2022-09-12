@@ -20,6 +20,7 @@ import Options.Applicative
 data Cipher = Caesar Int
             | Vigenere String
             | Polybius
+            | Zigzag Int
 
 data Input = Message String
             | InputFile String
@@ -57,10 +58,19 @@ polybiusParser = flag' Polybius
   <> short 'p'
   <> help "Use Polybius cipher")
 
+zigzagParser :: Parser Cipher
+zigzagParser = Zigzag <$> option auto
+  ( long "zigzag"
+  <> short 'z'
+  <> metavar "NRAILS"
+  <> help "Use zigzag cipher with a given (integer) number of rails"
+  )
+
 cipherParser :: Parser Cipher
 cipherParser = caesarParser
              <|> vigenereParser
              <|> polybiusParser
+             <|> zigzagParser
 
 messageParser :: Parser Input
 messageParser = Message <$> strOption
